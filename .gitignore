@@ -2,3 +2,6 @@
 venv/
 # Folder dataset besar (Opsional, diblokir agar upload cepat)
 Data Folder/
+.env
+log_deteksi.csv
+log_deteksi_backup_20251212_032723.csv
