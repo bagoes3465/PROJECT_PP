@@ -1,0 +1,4 @@
+# Folder environment (Wajib diblokir)
+venv/
+# Folder dataset besar (Opsional, diblokir agar upload cepat)
+Data Folder/
