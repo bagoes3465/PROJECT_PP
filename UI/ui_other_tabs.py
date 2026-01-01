@@ -123,39 +123,27 @@ class SerialTab:
         right_frame = ctk.CTkFrame(parent)
         right_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
         
-        ctk.CTkLabel(right_frame, text="Arduino Code Example",
+        ctk.CTkLabel(right_frame, text="Fitur Koneksi dan Pengujian Serial Arduino/ESP32",
                     font=ctk.CTkFont(size=18, weight="bold")).pack(pady=20)
         
-        code_text = """// Arduino Code untuk Egg Sorter
-const int servoAcceptPin = 9;
-const int servoRejectPin = 10;
+        code_text = """
+<>Pemilihan COM Port untuk menentukan jalur komunikasi antara aplikasi dan Arduino/ESP32
 
-void setup() {
-  Serial.begin(9600);
-  pinMode(servoAcceptPin, OUTPUT);
-  pinMode(servoRejectPin, OUTPUT);
-}
+<>Tombol Refresh Port untuk mendeteksi ulang perangkat yang baru terhubung
 
-void loop() {
-  if (Serial.available() > 0) {
-    char cmd = Serial.read();
-    
-    if (cmd == 'A') {
-      // ACCEPT
-      digitalWrite(servoAcceptPin, HIGH);
-      delay(500);
-      digitalWrite(servoAcceptPin, LOW);
-    }
-    else if (cmd == 'R') {
-      // REJECT
-      digitalWrite(servoRejectPin, HIGH);
-      delay(500);
-      digitalWrite(servoRejectPin, LOW);
-    }
-  }
-}"""
+<>Pengaturan Baudrate (9600 / 115200) agar komunikasi serial sesuai dengan konfigurasi Arduino
+
+<>Indikator status koneksi untuk menampilkan kondisi terhubung atau terputus
+
+<>Tombol Connect dan Disconnect untuk mengelola koneksi serial secara langsung
+
+<>Test ACCEPT untuk menguji pengiriman perintah terima ke Arduino
+
+<>Test REJECT untuk menguji pengiriman perintah tolak ke Arduino
+
+<>Arduino Code Example sebagai referensi format perintah dan kode yang kompatibel dengan aplikasi"""
         
-        code_box = ctk.CTkTextbox(right_frame, font=ctk.CTkFont(family="Courier", size=11))
+        code_box = ctk.CTkTextbox(right_frame, font=ctk.CTkFont(family="Courier", size=16))
         code_box.pack(pady=10, padx=20, fill="both", expand=True)
         code_box.insert("1.0", code_text)
         code_box.configure(state="disabled")

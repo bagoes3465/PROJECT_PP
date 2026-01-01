@@ -129,7 +129,7 @@ class CameraTab:
             right_frame, 
             text=info_text, 
             justify="left",
-            font=ctk.CTkFont(size=12)
+            font=ctk.CTkFont(size=16)
         ).pack(pady=20, padx=20, anchor="w")
     
     def _on_source_change(self, value):

@@ -1,7 +1,7 @@
 {
     "ip_camera": "192.168.1.6",
     "min_conf": 0.3,
-    "aktifkan_log": true,
+    "aktifkan_log": 0,
     "device": "cpu",
     "alert_enabled": true,
     "alert_sound_enabled": true,
@@ -10,5 +10,5 @@
     "detection_zone_x": 320,
     "detection_zone_tolerance": 50,
     "decision_cooldown": 2.0,
-    "last_saved": "2025-12-04T00:29:24.729144"
+    "last_saved": "2025-12-24T19:06:25.992168"
 }

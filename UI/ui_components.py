@@ -159,4 +159,5 @@ class InfoPanel(ctk.CTkFrame):
                     font=ctk.CTkFont(size=18, weight="bold")).pack(pady=20)
         
         ctk.CTkLabel(self, text=text, justify="left",
-                    font=ctk.CTkFont(size=11)).pack(pady=20, padx=20, anchor="w")
+                    font=ctk.CTkFont(size=16)).pack(pady=20, padx=20, anchor="w")
+        

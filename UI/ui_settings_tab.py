@@ -16,6 +16,7 @@ class DetectionSettingsTab:
             config: Config object
             callbacks: Dict of callback functions
         """
+
         self.parent = parent
         self.config = config
         self.callbacks = callbacks
@@ -268,7 +269,7 @@ class ModelSettingsTab:
         model_path = Path("models/best.pt")
         
         model_info = f"""
-🧠 Model: YOLOv8
+🧠 Model: YOLOv11
 📍 Path: {model_path}
 📊 Classes: {len(self.model_manager.model.names)}
 
@@ -301,7 +302,7 @@ Detected Classes:
             info_frame, 
             text=model_info, 
             justify="left",
-            font=ctk.CTkFont(size=11)
+            font=ctk.CTkFont(size=16)
         ).pack(pady=20, padx=20, anchor="w")
     
     def update_device_info(self, info_text, color="gray"):
