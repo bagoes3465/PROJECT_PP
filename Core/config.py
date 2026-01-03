@@ -22,6 +22,8 @@ class Config:
         self.detection_zone_x = DETECTION_ZONE_X
         self.detection_zone_tolerance = DETECTION_ZONE_TOLERANCE
         self.decision_cooldown = DECISION_COOLDOWN
+        # Camera enhancement settings
+        self.camera_enhancement = {}
     
     def load(self):
         try:

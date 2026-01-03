@@ -27,6 +27,7 @@ from Core.log_manager import LogManager
 from Training.training_manager import TrainingManager
 from Core.detection_logic import DetectionProcessor
 from Core.utils import setup_tcl_environment, create_directories, play_alert_sound
+from Core.camera_processor import CameraProcessor
 
 # Import UI components
 from UI.ui_components import ToastNotification
@@ -35,6 +36,7 @@ from UI.ui_detection_tab import DetectionTab
 from UI.ui_camera_tab import CameraTab
 from UI.ui_settings_tab import DetectionSettingsTab, ModelSettingsTab
 from UI.ui_other_tabs import SerialTab, LogTab, ChartTab
+from UI.ui_camera_enhancement_tab import CameraEnhancementTab
 
 # Import training UI
 try:
@@ -69,6 +71,9 @@ class EggSorterApp(ctk.CTk):
         self.serial_manager = SerialManager()
         self.tracker = CentroidTracker(maxDisappeared=30, maxDistance=80)
         self.training_manager = TrainingManager()
+
+        # Initialize camera processor
+        self.camera_processor = CameraProcessor()
         
         # Load model
         if not self.model_manager.load():
@@ -181,6 +186,13 @@ class EggSorterApp(ctk.CTk):
             'refresh_cameras': self.refresh_cameras
         }, self.config.ip_camera)
         
+        # Camera Enhancement tab
+        self.enhancement_tab = CameraEnhancementTab(
+            self.tabview, 
+            self.camera_processor,
+            {'on_settings_change': self.on_enhancement_change}
+        )
+
         # Detection settings tab
         self.detection_settings_tab = DetectionSettingsTab(self.tabview, self.config, {
             'update_conf': self.update_conf,
@@ -257,6 +269,11 @@ class EggSorterApp(ctk.CTk):
     def change_camera_source(self, source):
         """Change camera source"""
         self.camera_source = source
+
+    def on_enhancement_change(self):
+    # Save settings to config if needed
+        if hasattr(self.config, 'camera_enhancement'):
+            self.config.camera_enhancement = self.camera_processor.get_settings_dict()
     
     def get_selected_camera_index(self):
         """Get selected camera index"""
@@ -375,6 +392,7 @@ class EggSorterApp(ctk.CTk):
     def save_config_ui(self):
         """Save configuration"""
         self.config.ip_camera = self.camera_tab.get_ip_address()
+        self.config.camera_enhancement = self.camera_processor.get_settings_dict()
         if self.config.save():
             messagebox.showinfo("Success", "✅ Configuration saved!")
         else:
@@ -389,6 +407,9 @@ class EggSorterApp(ctk.CTk):
         self.detection_settings_tab.tolerance_slider.set(self.config.detection_zone_tolerance)
         self.detection_settings_tab.cooldown_slider.set(self.config.decision_cooldown)
         messagebox.showinfo("Success", "✅ Configuration loaded!")
+        if hasattr(self.config, 'camera_enhancement') and self.config.camera_enhancement:
+            self.camera_processor.load_settings_dict(self.config.camera_enhancement)
+            self.enhancement_tab.update_ui_from_processor()
     
     # ==================== IMAGE UPLOAD ====================
     
@@ -508,7 +529,7 @@ class EggSorterApp(ctk.CTk):
                 
                 frame_count += 1
                 self.calculate_fps()
-                frame = cv2.resize(frame, (640, 480))
+                frame = self.camera_processor.process_frame(frame)
                 
                 # Process frame
                 result = self.detection_processor.process_frame(frame)
