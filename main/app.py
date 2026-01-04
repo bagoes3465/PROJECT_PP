@@ -143,6 +143,10 @@ class EggSorterApp(ctk.CTk):
             self.chart_data["timestamps"].append(log.get("waktu", ""))
             self.chart_data["accept"].append(temp_accept)
             self.chart_data["reject"].append(temp_reject)
+
+    def check_camera_running(self):
+        """Check if camera is currently running"""
+        return self.camera_running
     
     # ==================== UI SETUP ====================
     
@@ -208,7 +212,8 @@ class EggSorterApp(ctk.CTk):
             'toggle_alert': self.toggle_alert,
             'toggle_sound': self.toggle_sound,
             'save_config': self.save_config_ui,
-            'load_config': self.load_config_ui
+            'load_config': self.load_config_ui,
+            'check_camera_running': self.check_camera_running  # ADD THIS LINE
         })
         
         # Serial tab
